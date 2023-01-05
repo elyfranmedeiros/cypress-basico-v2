@@ -112,7 +112,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             .should('not.be.checked')
     })
 
-    it.only('seleciona um arquivo da pasta fixtures', function() {
+    it('seleciona um arquivo da pasta fixtures', function() {
         cy.get('#file-upload')
             .selectFile('cypress/fixtures/example.json')
             //.selectFile('cypress/fixtures/example.json', { action : 'drag-drop' }) //simulando drag and drop
@@ -129,5 +129,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             .should(function(file){
                 expect(file[0].files[0].name).to.be.equals('example2.json')
             })
+    })
+
+    it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function() {
+        cy.get('#privacy a').should('have.attr', 'target', '_blank')
+    })
+
+    it.only('acessa a página da política de privacidade (deveria abrir em outra pagina) removendo o target e então clicando no link', function() {
+        cy.get('#privacy > :nth-child(1)').invoke('removeAttr', 'target').click()
+        cy.get('#white-background').should('be.visible')
     })
 })
